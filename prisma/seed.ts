@@ -6,7 +6,7 @@ config({ path: ".env.local" });
 if (process.env.NODE_ENV === "production")
   throw new Error("Development seed is disabled in production.");
 const db = new PrismaClient();
-const password = process.env.DEMO_PASSWORD || "PetitsMondes2026!";
+const password = process.env.DEMO_PASSWORD || "sosve2026";
 const days = (offset: number) => {
   const date = new Date();
   date.setDate(date.getDate() + offset);
@@ -23,20 +23,20 @@ async function main() {
   const accounts = [
     {
       id: "demo-admin",
-      name: "Amira Ben Salem",
-      email: "admin@demo.petitsmondes.local",
+      name: "Admin Demo",
+      email: "admin@dreamy.com",
       role: "ADMIN" as const,
     },
     {
       id: "demo-mother-a",
-      name: "Mouna Trabelsi",
-      email: "mouna@demo.petitsmondes.local",
+      name: "Mother1",
+      email: "mother1@dreamy.com",
       role: "MOTHER" as const,
     },
     {
       id: "demo-mother-b",
-      name: "Salma Mansouri",
-      email: "salma@demo.petitsmondes.local",
+      name: "Mother2",
+      email: "mother2@dreamy.com",
       role: "MOTHER" as const,
     },
   ];

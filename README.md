@@ -27,6 +27,8 @@ Mot de passe de démonstration : `PetitsMondes2026!`. Définissez `DEMO_PASSWORD
 
 L’application utilise les endpoints HTTPS GroqCloud côté serveur : `openai/gpt-oss-20b` pour les suggestions et `whisper-large-v3-turbo` pour la transcription. Ajoutez `GROQ_API_KEY`, gardez `AI_ENABLED=true`, puis consultez `/api/ai/status` en étant connecté pour vérifier l’accès des deux modèles **avec votre compte**. Les modèles et les quotas doivent être confirmés dans la console GroqCloud avant la démonstration. En l’absence de clé, les fonctionnalités manuelles restent disponibles et l’IA renvoie une erreur explicite.
 
+Après avoir modifié `.env.local`, redémarrez `npm run dev` pour que le serveur utilise la nouvelle clé. Pour organiser une note, saisissez du texte dans « Nouvelle note » (ou choisissez « Modifier la note » sur une note existante), puis cliquez sur « Organiser avec l’IA ». Les suggestions apparaissent sous le formulaire et attendent votre approbation.
+
 Les limites applicatives sont de 30 requêtes LLM et 10 transcriptions par utilisateur et par jour, avec 25–30 secondes de délai maximal par appel. Les enregistrements sont limités à 90 secondes et à 10 Mo. Le serveur vérifie indépendamment la durée du média et rejette les fichiers illisibles. Les fichiers audio ne sont pas conservés par l’application. Les messages de quota ou de panne ne déclenchent aucun fournisseur payant.
 
 La transcription peut reconnaître le français et l’arabe ; l’arabe tunisien ou la parole mêlant plusieurs langues reste de qualité variable. Le texte doit être relu avant l’enregistrement. Les suggestions IA sont modifiables et ne changent le profil qu’après approbation explicite de la maman.

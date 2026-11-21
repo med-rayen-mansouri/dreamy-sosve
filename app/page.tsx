@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand-logo";
 import {
   ArrowRight,
   CalendarHeart,
@@ -13,9 +14,10 @@ export default function Home() {
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-[#1D3768]"
+          aria-label="Dreamy, accueil"
+          className="block w-44 sm:w-52"
         >
-          Petits <span className="text-[#08A9E0]">Mondes</span>
+          <BrandLogo className="h-auto w-full" />
         </Link>
         <Link href="/login" className="btn-primary">
           Se connecter <ArrowRight size={18} />

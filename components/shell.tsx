@@ -7,6 +7,7 @@ import {
   Users,
 } from "lucide-react";
 import { signOut } from "@/auth";
+import { BrandLogo } from "@/components/brand-logo";
 
 export function Shell({
   role,
@@ -32,8 +33,8 @@ export function Shell({
     <div className="min-h-screen lg:flex">
       <aside className="border-b border-[#CFEAF5] bg-white lg:sticky lg:top-0 lg:h-screen lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between px-5 py-6 lg:block">
-          <Link href="/" className="text-xl font-bold text-[#1D3768]">
-            Petits <span className="text-[#08A9E0]">Mondes</span>
+          <Link href="/" aria-label="Dreamy, accueil" className="block w-40 lg:w-48">
+            <BrandLogo className="h-auto w-full" />
           </Link>
           <span className="text-xs font-bold uppercase tracking-wider text-[#E2556A] lg:mt-2 lg:block">
             {role === "MOTHER" ? "Espace maman" : "Espace organisation"}

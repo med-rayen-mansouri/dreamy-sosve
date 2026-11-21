@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Petits Mondes",
+  title: "Dreamy",
   description: "Des événements SOS pensés pour chaque enfant.",
 };
 export default function RootLayout({

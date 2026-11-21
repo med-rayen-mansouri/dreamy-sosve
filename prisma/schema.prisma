@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MOTHER
+  ADMIN
+}
+
+enum NoteInputMethod {
+  TEXT
+  VOICE
+}
+
+enum EventType {
+  BIRTHDAY
+  SOS_EVENT
+}
+
+enum EventStatus {
+  DRAFT
+  AWAITING_APPROVAL
+  CHANGES_REQUESTED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  DECLINED
+  CHANGES_REQUESTED
+}
+
+model User {
+  id              String             @id @default(cuid())
+  name            String
+  email           String             @unique
+  passwordHash    String
+  role            Role
+  active          Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  children        Child[]
+  notes           ChildNote[]
+  organizedEvents Event[]
+  participants    EventParticipant[]
+  feedback        EventFeedback[]
+  aiRequests      AiRequest[]
+}
+
+model Child {
+  id                      String             @id @default(cuid())
+  motherId                String
+  mother                  User               @relation(fields: [motherId], references: [id], onDelete: Restrict)
+  firstName               String
+  birthDate               DateTime           @db.Date
+  avatar                  String?
+  description             String?            @db.Text
+  personalityTags         Json?
+  interests               Json?
+  favoriteActivities      Json?
+  favoriteColors          Json?
+  birthdayThemes          Json?
+  giftWishes              Json?
+  comfortPreferences      Json?
+  approvedPlanningSummary String?            @db.Text
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  notes                   ChildNote[]
+  birthdays               Event[]            @relation("BirthdayChild")
+  participants            EventParticipant[]
+  feedback                EventFeedback[]
+
+  @@index([motherId])
+  @@index([birthDate])
+}
+
+model ChildNote {
+  id          String          @id @default(cuid())
+  childId     String
+  child       Child           @relation(fields: [childId], references: [id], onDelete: Cascade)
+  motherId    String
+  mother      User            @relation(fields: [motherId], references: [id], onDelete: Restrict)
+  content     String          @db.Text
+  inputMethod NoteInputMethod
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([childId, createdAt])
+  @@index([motherId])
+}
+
+model Event {
+  id                 String             @id @default(cuid())
+  type               EventType
+  title              String
+  description        String?            @db.Text
+  category           String?
+  eventDate          DateTime
+  location           String
+  birthdayChildId    String?
+  birthdayChild      Child?             @relation("BirthdayChild", fields: [birthdayChildId], references: [id], onDelete: SetNull)
+  theme              String?
+  plannedActivities  Json?
+  suggestedGiftIdeas Json?
+  preparationNotes   String?            @db.Text
+  status             EventStatus        @default(DRAFT)
+  organizerId        String
+  organizer          User               @relation(fields: [organizerId], references: [id], onDelete: Restrict)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  participants       EventParticipant[]
+  tasks              EventTask[]
+  feedback           EventFeedback[]
+
+  @@index([eventDate, status])
+  @@index([organizerId])
+}
+
+model EventParticipant {
+  id             String         @id @default(cuid())
+  eventId        String
+  event          Event          @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  childId        String
+  child          Child          @relation(fields: [childId], references: [id], onDelete: Cascade)
+  motherId       String
+  mother         User           @relation(fields: [motherId], references: [id], onDelete: Restrict)
+  approvalStatus ApprovalStatus @default(PENDING)
+  motherComment  String?        @db.Text
+  reviewedAt     DateTime?
+
+  @@unique([eventId, childId])
+  @@index([motherId, approvalStatus])
+}
+
+model EventTask {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  title     String
+  completed Boolean  @default(false)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventId, position])
+}
+
+model EventFeedback {
+  id               String   @id @default(cuid())
+  eventId          String
+  event            Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  childId          String
+  child            Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  motherId         String
+  mother           User     @relation(fields: [motherId], references: [id], onDelete: Restrict)
+  enjoyed          Boolean
+  favoriteActivity String?
+  comfortable      Boolean
+  comment          String?  @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([eventId, childId])
+  @@index([motherId])
+}
+
+model AiRequest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

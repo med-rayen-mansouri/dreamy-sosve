@@ -1,26 +1,102 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cyan: #08a9e0;
+  --color-navy: #1d3768;
+  --color-coral: #e2556a;
+  --color-pale: #effaff;
+  --color-light: #cfeaf5;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #effaff;
+  color: #1d3768;
   font-family: Arial, Helvetica, sans-serif;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 3px solid #08a9e0;
+  outline-offset: 3px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: #08a9e0;
+  color: white;
+  padding: 0.8rem 1.3rem;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+.btn-primary:hover {
+  background: #1d3768;
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid #cfeaf5;
+  border-radius: 999px;
+  background: white;
+  color: #1d3768;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+}
+.btn-secondary:hover {
+  background: #effaff;
+}
+.card {
+  border: 1px solid #cfeaf5;
+  border-radius: 1.5rem;
+  background: white;
+  padding: 1.5rem;
+  box-shadow: 0 8px 26px #1d376810;
+}
+.field {
+  display: block;
+  width: 100%;
+  border: 1px solid #cfeaf5;
+  border-radius: 0.85rem;
+  background: white;
+  padding: 0.75rem 1rem;
+  color: #1d3768;
+}
+.field:focus {
+  border-color: #08a9e0;
+  outline: 2px solid #08a9e044;
+}
+.label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1d3768;
+}
+.eyebrow {
+  color: #e2556a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.page-title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.muted {
+  color: #1d3768;
+  opacity: 0.75;
 }
